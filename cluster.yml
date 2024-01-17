@@ -1,0 +1,6 @@
+__default__:
+    partition: norm
+    time: 100:00:00
+    #extra: "--gres=lscratch:10"
+run_fqu: # not used here for chipseq_snake_pipe
+   partition: largemem

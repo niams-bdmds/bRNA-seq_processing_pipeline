@@ -1,0 +1,12 @@
+rule featureCount:
+    input: "STAR_alignment/{sample}.bam"
+    output: "ReadCountsMatrix/{sample}.feature_count.txt"
+    params:
+        mem = "10G",
+        gtf = config["star"] ["gtf_ercc"]
+    shell:
+      '''
+      module load subread/2.0.3
+      mkdir -p ReadCountsMatrix
+      featureCounts -p --countReadPairs -s 2 -B -O -T 12 -t exon -g gene_name -a {params.gtf} -o {output} {input}
+      '''

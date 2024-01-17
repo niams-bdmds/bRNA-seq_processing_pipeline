@@ -1,0 +1,18 @@
+rule cutadapt_qc:
+    input: expand("FASTQ/FASTQ_Cutadapt/Cutadapt_QC/{sample}.cutadapt.log", sample = SAMPLES)
+    output: "FASTQ/FASTQ_Cutadapt/Cutadapt_QC/cutadapt_qc.tsv"
+    params:
+        mem = "4G"
+    shell:
+     '''
+     cd FASTQ/FASTQ_Cutadapt/Cutadapt_QC
+     grep -E 'Read 1 with adapter: | Read 2 with adapter:' *.log \
+     | sed 's/[(:%,)]//g' | sed 's/.cutadapt.log//g' \
+     | awk -v OFS="\t" 'BEGIN{{print "Sample", "Read", "Trimmed_reads", "Percent_trimmed"}}; \
+     {{print $1,$3, $6, $7}}' 2> error_cutadapt_qc.txt 1> cutadapt_qc.tsv
+     grep -E 'Total read pairs processed:' *.log | sed 's/[,]//g' | sed 's/.cutadapt.log.Total//g' \
+     | awk -v OFS="\t" 'BEGIN{{print "sample", "number_read_pair_processed"}}; \
+     {{print $1, $5}}' > qc_table.txt
+     module load R/4.3
+     Rscript script/cutadaptQC_plot.R 2> error.Rout
+     '''

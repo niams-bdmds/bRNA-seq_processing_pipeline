@@ -1,0 +1,11 @@
+rule de_analysis:
+    input: "ReadCountsMatrix/expression_matrix.txt"
+    output: "DESeq2_output/RESULT_test_data_2H_vs_0H_DESeq"
+    params:
+     mem = "10G"
+    threads: 2
+    shell:
+     '''
+     module load R/4.3.0
+     Rscript DEscript.R
+     '''

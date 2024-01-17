@@ -1,0 +1,18 @@
+rule fastqc:
+    input:
+        a1 = "FASTQ/FASTQ_Cutadapt/Adaptrimmed_{sample}_R1_001.fastq.gz",
+        a2 = "FASTQ/FASTQ_Cutadapt/Adaptrimmed_{sample}_R2_001.fastq.gz"            
+    output: 
+        o1 = "FastQC/Adaptrimmed_{sample}_R1_001_fastqc.zip",
+        o2 = "FastQC/Adaptrimmed_{sample}_R2_001_fastqc.zip"
+    params:
+        mem = "8G",
+        dir = "FastQC"
+    threads: 12
+    shell:
+     '''
+     module load fastqc/0.11.9
+     mkdir -p FastQC
+     fastqc -t {threads} -o {params.dir} {input.a1}
+     fastqc -t {threads} -o {params.dir} {input.a2}
+     '''

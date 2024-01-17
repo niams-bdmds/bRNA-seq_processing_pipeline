@@ -1,0 +1,10 @@
+rule post_mapping:
+    input: "STAR_alignment/{sample}/"
+    params:
+        mem = "5G"
+    threads: 2
+    output: "STAR_alignment/{sample}.bam"
+    shell:
+      '''
+      mv {input}/Aligned.sortedByCoord.out.bam {output}
+      '''

@@ -1,0 +1,7 @@
+rule count_matrix:
+    input: expand("ReadCountsMatrix/{sample}.feature_count.txt", sample = SAMPLES)
+    output: "ReadCountsMatrix/expression_matrix.txt"
+    params:
+        mem = "4G"
+    shell:
+     "script/generate_count_matrix.sh"

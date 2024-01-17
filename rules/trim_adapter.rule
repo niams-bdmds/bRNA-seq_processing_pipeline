@@ -1,0 +1,19 @@
+rule trim_adapter:
+    input:
+        a1 = "FASTQ/FASTQ_untrimmed/{sample}_R1_001.fastq.gz",
+        a2 = "FASTQ/FASTQ_untrimmed/{sample}_R2_001.fastq.gz"
+    output: 
+        o1 = "FASTQ/FASTQ_Cutadapt/Adaptrimmed_{sample}_R1_001.fastq.gz",
+        o2 = "FASTQ/FASTQ_Cutadapt/Adaptrimmed_{sample}_R2_001.fastq.gz",
+        o3 = "FASTQ/FASTQ_Cutadapt/Cutadapt_QC/{sample}.cutadapt.log"
+    params:
+        mem = "10G"
+    threads: 12
+    shell:
+     '''
+     module load cutadapt/4.0
+     mkdir -p FASTQ/FASTQ_Cutadapt
+     mkdir -p FASTQ/FASTQ_Cutadapt/Cutadapt_QC
+     cutadapt -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC -A AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT \
+     -m 20 -j 0 -o {output.o1} -p {output.o2} {input.a1} {input.a2} > {output.o3}
+     '''

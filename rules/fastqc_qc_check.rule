@@ -1,0 +1,11 @@
+rule fastQC_qc_check:
+    input: 
+        a1 = expand("FastQC/Adaptrimmed_{sample}_R1_001_fastqc.zip", sample = SAMPLES),
+        a2 = expand("FastQC/Adaptrimmed_{sample}_R2_001_fastqc.zip", sample = SAMPLES)
+    
+    output: "FastQC/fastQC_QC_table.tsv"
+    params:
+        mem = "8G"
+    threads: 12
+    shell:
+      "script/parse_fastQC.sh"

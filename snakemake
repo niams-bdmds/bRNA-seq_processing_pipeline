@@ -1,0 +1,28 @@
+
+configfile: "config.yaml"
+SAMPLES, = glob_wildcards("FASTQ/FASTQ_untrimmed/{sample}_R1_001.fastq.gz")
+# Here we can specify other sets as well
+
+rule all:
+    input:
+        expand("FASTQ/FASTQ_Cutadapt/Adaptrimmed_{sample}_R1_001.fastq.gz", sample = SAMPLES),
+        "FASTQ/FASTQ_Cutadapt/Cutadapt_QC/cutadapt_qc.tsv",
+        expand("FastQC/Adaptrimmed_{sample}_R1_001_fastqc.zip", sample = SAMPLES),
+        "FastQC/fastQC_QC_table.tsv",
+        expand("STAR_alignment/{sample}/", sample = SAMPLES),
+        expand("STAR_alignment/{sample}.bam", sample = SAMPLES),
+        "STAR_alignment/Alignment_QC/mapping_QC.txt",
+        expand("ReadCountsMatrix/{sample}.feature_count.txt", sample = SAMPLES),
+        "ReadCountsMatrix/expression_matrix.txt",
+        "DESeq2_output/RESULT_test_data_2H_vs_0H_DESeq"
+
+include: "rules/trim_adapter.rule"
+include: "rules/cutadapt_qc.rule"
+include: "rules/fastqc.rule"
+include: "rules/fastqc_qc_check.rule"
+include: "rules/mapping.rule"
+include: "rules/post_mapping.rule"
+include: "rules/alignment_qc.rule"
+include: "rules/featureCount.rule"
+include: "rules/count_matrix.rule"
+#include: "rules/de_analysis.rule"

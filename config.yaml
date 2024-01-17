@@ -1,0 +1,5 @@
+
+star:
+  genome: path/to/genome/dir
+  gtf: path/to/gtf/file
+

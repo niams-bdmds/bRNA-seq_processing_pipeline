@@ -1,0 +1,17 @@
+rule alignment_qc:
+    input: expand("STAR_alignment/{sample}.bam", sample = SAMPLES)
+    params:
+        mem = "5G"
+    threads: 2
+    output:
+        "STAR_alignment/Alignment_QC/mapping_QC.txt"
+    shell:
+     '''
+     mkdir -p "STAR_alignment/Alignment_QC"
+     "/data/regmib2/scripts/BDMDS/RNA_seq/mapping_quality_QC.sh"
+     mv mapping_QC.txt STAR_alignment/Alignment_QC/.
+     module load R/4.3
+     Rscript script/visualize_mapping_QC.R 2> errorfile.Rout
+     mv *.pdf STAR_alignment/Alignment_QC/.
+     rm -rf *.t.txt
+     '''
