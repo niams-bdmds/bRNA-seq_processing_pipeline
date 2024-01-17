@@ -14,7 +14,7 @@ rule all:
         "STAR_alignment/Alignment_QC/mapping_QC.txt",
         expand("ReadCountsMatrix/{sample}.feature_count.txt", sample = SAMPLES),
         "ReadCountsMatrix/expression_matrix.txt",
-        "DESeq2_output/RESULT_test_data_2H_vs_0H_DESeq"
+        #"DESeq2_output/RESULT_test_data_2H_vs_0H_DESeq"
 
 include: "rules/trim_adapter.rule"
 include: "rules/cutadapt_qc.rule"
