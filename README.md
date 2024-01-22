@@ -1,4 +1,4 @@
-# Bulk RNA-seq analysis pipeline
+# Bulk RNA-Seq analysis pipeline
 This repository contains the rule files directory, script directory, FASTQ(empty)
 directory, snakemake wrapper script, cluster.yml and config.yaml files. 
 ## How to run this pipeline
